@@ -16,18 +16,31 @@ int main() {
         cerr << "Error opening output file" << endl;
         return 1;
     }
-
-    int prev_num = -1;
-    bool first = true;
+    
+    int sizeArr = 0;
+    int sizeRes = 0;
+    int *arr = new int[size];
+    int *resArr = new int[sizeRes];
     int num;
     while (in >> num) {
-        if (num != prev_num || first) {
-            out << num << endl;        //Считываем данные из файла и неповторяющиеся выводим в файл
-            first = false;
-        }
-        prev_num = num;
+        size++;
+        arr[size-1] = num;
     }
-
+    for (int i = 0; i < size; i++){
+        int temp = arr[i];
+        for (int j = 0; j < sizeRes; j++) {
+            if (temp == resArr[j]) { 
+                inCount++;      //Проверка, было ли уже выбрано число для выноса в ответ или нет
+            }
+        }
+        if (inCount == 0) {
+            size++;             //Расширение динамического массива и добавление в него нового элемента
+            resArr[sizeRes - 1] = temp; 
+        }
+    }
+    for (int i = 0; i < size; i++) {
+        out << resArr[i] << " ";
+    }  
     in.close();
     out.close();
 
